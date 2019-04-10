@@ -12,7 +12,7 @@ class_weights_path = "data/English/GoodImg/GoodImg.pkl"
 no_of_gpu = 1
 batch_size = 32*no_of_gpu #has to be even no.
 
-epochs = 20
+epochs = 2
 patience_lr = 5
 factor_lr = 0.5
 min_delta = 0.01
@@ -24,13 +24,18 @@ fine_tuning = False
 transfer_lr = False
 trial = False
 
-
+if trial:
+    print("Trial Mode Activated")
+    epochs = 3
+    samples = 200       
+    
+    
 if training_frm_scratch:
-    model = 'cnn1' #used for importing from src networks
+    model = 'simple_cnn' #used for importing from src networks
     initial_epoch = 0
     optimiser = 'sgd'  #enter everything in small letters
-    loss = 'bce_dice'
-    metric = 'dice'
+    loss = 'cat_cross'
+    metric = 'acc'
     learning_rate = 0.001
 
 
@@ -46,8 +51,8 @@ if fine_tuning:
    initial_epoch = 0
 
    optimiser = 'sgd'  #enter everything in small letters
-   loss = 'wbce_dice'
-   metric = 'dice'
+   loss = 'cat_cross'
+   metric = 'acc'
    learning_rate = 0.0001
 
 
@@ -59,12 +64,9 @@ if transfer_lr:
     trainable_layers =  list(range(104)) #complete architecture for safenet
 
     optimiser = 'sgd'  #enter everything in small letters
-    loss = 'bce_dice'
-    metric = 'dice'
+    loss = 'cat_cross'
+    metric = 'acc'
     learning_rate = 0.0001
 
 
-if trial:
-    print("Trial Mode Activated")
-    epochs = 3
-    no_of_samples = 10
+
