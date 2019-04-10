@@ -76,7 +76,7 @@ class DataGenerator(keras.utils.Sequence):
             image_gray = cv2.imread(os.path.join(self.base_path, file_path),0)
             if image_gray is None:
                 break
-            
+
             resized = cv2.resize(image_gray, self.dim, interpolation = cv2.INTER_AREA)
             normalised = cv2.normalize(resized, None, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
             X[i,] = normalised
