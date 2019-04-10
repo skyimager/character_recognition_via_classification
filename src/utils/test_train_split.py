@@ -60,7 +60,7 @@ def test_train_split(base, datasets,config):
             images["test"] =  files[(train_size+val_size):]
 
             #Generating integer label for the classes
-            label = int(klass[-2:])
+            label = int(klass[-2:]) - 1
 
             #Generating class weights. The class with the highest number is given a
             #weight of 1.0.
