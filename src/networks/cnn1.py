@@ -8,13 +8,13 @@ from keras.layers.core import Dense, Activation, Dropout, Flatten
 from keras.layers.convolutional import Convolution2D, MaxPooling2D
 
 def build_model(input_shape=(64,64,1), nclasses=62):
-    
+
     if nclasses > 1:
         activation = "softmax"
     else:
         activation="sigmoid"
-    
-    
+
+
     model = Sequential()
 
     model.add(Convolution2D(128,3,3, input_shape=input_shape, activation = 'relu'))
