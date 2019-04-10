@@ -9,6 +9,7 @@ import keras
 import numpy as np
 import os
 import cv2
+import config
 
 class DataGenerator(keras.utils.Sequence):
     """
@@ -62,9 +63,8 @@ class DataGenerator(keras.utils.Sequence):
         :return: features and labels
         """
 
-        X = np.empty((self.batch_size, *self.dim, self.n_channels))
-
-        y = np.empty((self.batch_size), dtype=int)
+        X = []
+        y = []
 
 
         for i, index in enumerate(indexes):
@@ -79,8 +79,14 @@ class DataGenerator(keras.utils.Sequence):
 
             resized = cv2.resize(image_gray, self.dim, interpolation = cv2.INTER_AREA)
             normalised = cv2.normalize(resized, None, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
-            X[i,] = normalised
-            y[i] = label
+            
+            X.append(np.expand_dims(normalised,axis=-1))
+            y.append(label)
+        
+        X = np.array(X)
+        y = np.array(y)
+        
+        if config.loss == 'cat_cross':
+            y = keras.utils.to_categorical(y, num_classes=self.n_classes)
 
-
-        return X, keras.utils.to_categorical(y, num_classes=self.n_classes)
+        return X, y
