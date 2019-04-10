@@ -52,7 +52,7 @@ http://www.ee.surrey.ac.uk/CVSSP/demos/chars74k/
 
 To enable dynamic loading of data with the help of Keras Generator and easy shuffling of data for different experiments, we prepare data scripts as `train.txt`, `validation.txt` and `test.txt`.
 
-At the same time, we also prepare `class_weights_map` to be used in keras while training. This is done using the script [hera](./src/utils/test_train_split.py)
+At the same time, we also prepare `class_weights_maps.pkl` to be used in keras while training. This is done using the script [here](./src/utils/test_train_split.py)
 
 <a name="proj-des"></a>
 ## 3. Project description
@@ -60,11 +60,13 @@ The training script is `train.py` <br>
 
 The entire training configuration including the dataset path, hyper-parameters and other arguments are specified in `config.py`, which you can modify and experiment with. It gives a one-shot view of the entire training process. <br>
 
-The training can be conducted in 3 modes:
+The training can be conducted in 4 modes:
  - Training from scratch
  - Training from checkpoint
  - Fine tuning
  - Transfer Learning
+
+Support for `parallel processing` at CPU level for datapreparation and subsequent `multi-gpu` training has been added. 
 
 Explore `config.py` to learn more about the parameters you can tweak.
 
