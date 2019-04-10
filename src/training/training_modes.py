@@ -1,6 +1,6 @@
 """
 This script defines 4 different modes of traning and how they can be used with
-GPU support in keras. 
+GPU support in keras.
 """
 #Standard imports
 from keras.models import load_model
@@ -24,15 +24,15 @@ def training_scratch(optimiser_class, loss_class, metric_class):
         print("Running in multi-gpu mode")
         with tf.device('/cpu:0'):
             build = getattr(importlib.import_module(config.model),"build")
-            model = build(size = config.tile_size, chs = 3)
+            model = build(input_shape=(config.size, config.size, 1))
 
         gpu_model = multi_gpu_model(model, gpus = config.no_of_gpu)
-        gpu_model.compile(loss= loss, optimizer=optimizer, metrics=[metric, 'accuracy'])
-        model.compile(loss= loss, optimizer=optimizer, metrics=[metric, 'accuracy'])
+        gpu_model.compile(loss= loss, optimizer=optimizer, metrics=[metric])
+        model.compile(loss= loss, optimizer=optimizer, metrics=[metric])
     else:
         build = getattr(importlib.import_module(config.model),"build")
-        model = build(size = config.tile_size, chs = 3)
-        model.compile(loss= loss, optimizer=optimizer, metrics=[metric, 'accuracy'])
+        model = build(input_shape=(config.size, config.size, 1))
+        model.compile(loss= loss, optimizer=optimizer, metrics=[metric])
         gpu_model = None
 
     return model, gpu_model
@@ -73,14 +73,14 @@ def fine_tune(optimiser_class, loss_class, metric_class):
 
         gpu_model = multi_gpu_model(model, gpus = config.no_of_gpu)
         gpu_model.layers[-2].set_weights(model.get_weights())
-        gpu_model.compile(loss= loss, optimizer=optimizer, metrics=[metric, 'accuracy'])
-        model.compile(loss= loss, optimizer=optimizer, metrics=[metric, 'accuracy'])
+        gpu_model.compile(loss= loss, optimizer=optimizer, metrics=[metric])
+        model.compile(loss= loss, optimizer=optimizer, metrics=[metric])
 
     else:
         build = getattr(importlib.import_module(config.model),"build")
         model = build(input_shape=(config.tile_size, config.tile_size, 3))
         model.load_weights(config.weights_path, by_name=True)
-        model.compile(loss= loss, optimizer=optimizer, metrics=[metric, 'accuracy'])
+        model.compile(loss= loss, optimizer=optimizer, metrics=[metric])
         gpu_model = None
 
     return model, gpu_model
