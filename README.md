@@ -49,10 +49,9 @@ http://www.ee.surrey.ac.uk/CVSSP/demos/chars74k/
 
 <a name="preparing-dataset"></a>
 ## 2. Preparing dataset
-
 To enable dynamic loading of data with the help of Keras Generator and easy shuffling of data for different experiments, we prepare data scripts as `train.txt`, `validation.txt` and `test.txt`.
 
-At the same time, we also prepare `class_weights_maps.pkl` to be used in keras while training. This is done using the script [here](./src/utils/test_train_split.py)
+The present dataset is highly imbalanced (no_of_files_per_class has a max of 400+ and min of 30+). To handle this we can either do a downsampling of the dominant cases or oversampling of minority cases. Here we are doing oversampling of minority cases. The generated class weights are saved as a pickle file (`class_weights_maps.pkl`) and are to be used in keras while training. This is done using the script [here](./src/utils/test_train_split.py)
 
 <a name="proj-des"></a>
 ## 3. Project description
@@ -66,7 +65,7 @@ The training can be conducted in 4 modes:
  - Fine tuning
  - Transfer Learning
 
-Support for `parallel processing` at CPU level for datapreparation and subsequent `multi-gpu` training has been added. 
+Support for `parallel processing` at CPU level for datapreparation and subsequent `multi-gpu` training has been added.
 
 Explore `config.py` to learn more about the parameters you can tweak.
 
