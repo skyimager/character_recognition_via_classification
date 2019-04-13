@@ -15,10 +15,10 @@ The project data and codes are arranged in the following manner:
 
 ```
 charni
-  ├── train.py
-  ├── config.py
-  ├── evaluate.py
   ├── src  
+  |   ├── train.py
+  |   ├── config.py
+  |   ├── evaluate.py
   |   ├── training/
   |   ├── evaluation/
   |   ├── networks/   
@@ -71,6 +71,12 @@ Explore `config.py` to learn more about the parameters you can tweak.
 
 A Notebook has been created for explaining the different training steps: <br>
 Jupyter-notebook [LINK](./notebook/training.ipynb)
+
+For training, make the desired configuration in `config.py` and then run `train.py` as:
+
+```
+python src/train.py
+```
 
 <a name="to-do"></a>
 ## 4. To-Do
