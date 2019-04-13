@@ -9,7 +9,7 @@ from keras.utils import multi_gpu_model
 import tensorflow as tf
 
 #Custom imports
-import config
+from src import config
 from src.training.modeller import finetune_model
 
 def training_scratch(optimiser_class, loss_class, metric_class):

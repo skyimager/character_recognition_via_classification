@@ -20,7 +20,7 @@ import pickle
 from keras.optimizers import Adam, RMSprop, Nadam, SGD
 
 #Custom Imports
-import config
+from src import config
 from src.training import data_loader
 from src.training.data_generator import DataGenerator
 from src.training.keras_callbacks import get_callbacks
@@ -30,30 +30,30 @@ from src.training.plots import save_plots
 
 if __name__ == "__main__":
 
-    base_path = config.base_path    
+    base_path = config.base_path
     exp_name = config.exp_name
-    
+
     #Params
         #Constants
     size = config.size
     classes = config.nclasses
     chs = config.chs
-    
+
         #Training Params
     epochs = config.epochs
-    learning_rate = config.learning_rate   
-    batch_size = config.batch_size 
+    learning_rate = config.learning_rate
+    batch_size = config.batch_size
     initial_epoch = config.initial_epoch
-    
+
     f = open(config.class_weights_path, 'rb')
     class_weights = pickle.load(f)
-    
+
     training_frm_scratch = config.training_frm_scratch
     training_frm_chkpt = config.training_frm_chkpt
     fine_tuning = config.fine_tuning
     transfer_lr = config.transfer_lr
     trial = config.trial
-    
+
     if sum((training_frm_scratch, training_frm_chkpt, fine_tuning, transfer_lr)) != 1:
         raise Exception("Conflicting training modes")
 
@@ -73,17 +73,17 @@ if __name__ == "__main__":
     val_spe = int(np.floor(len(X_val)/batch_size))
 
     # Initialise training and validation generators
-    train_generator = DataGenerator(base_path, file_paths =X_train, labels =y_train, batch_size = batch_size, 
+    train_generator = DataGenerator(base_path, file_paths =X_train, labels =y_train, batch_size = batch_size,
                                     dim=(size,size), n_channels=chs, n_classes= classes, shuffle=True)
-    
-    validation_generator = DataGenerator(base_path, file_paths =X_val, labels =y_val, batch_size = batch_size, 
+
+    validation_generator = DataGenerator(base_path, file_paths =X_val, labels =y_val, batch_size = batch_size,
                                          dim=(size,size), n_channels= chs, n_classes= classes, shuffle=True)
 
     loss_class = {'cat_cross': 'categorical_crossentropy',
                   'sp_cat_cross': 'sparse categorical crossentropy'}
-    
+
     metric_class = {'acc':'accuracy'}
-    
+
     optimiser_class = {'adam': (Adam, {}),
                    'nadam': (Nadam, {}),
                    'rmsprop': (RMSprop, {}),
