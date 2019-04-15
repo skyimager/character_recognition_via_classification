@@ -1,5 +1,5 @@
 from keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint, TensorBoard
-from src import config
+import config
 
 class GPUModelCheckpoint(ModelCheckpoint):
     def __init__(self, filepath, org_model, **kwargs):
