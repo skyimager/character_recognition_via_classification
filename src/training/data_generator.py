@@ -9,18 +9,19 @@ import keras
 import numpy as np
 import os
 import cv2
-from src import config
+import config
 
 class DataGenerator(keras.utils.Sequence):
     """
     Generates data for Keras
     """
-    def __init__(self, base_path, file_paths, labels, batch_size=32,
-                 dim=(64,64), n_channels=1, n_classes=62, shuffle=True):
+    def __init__(self, base_path, file_paths, labels, preprocess, batch_size=32,
+                 dim=(64,64), n_channels=3, n_classes=62, shuffle=True):
 
         self.base_path = base_path
         self.dim = dim
         self.batch_size = batch_size
+        self.preprocess = preprocess
         self.labels = labels
         self.file_paths = file_paths
         self.n_channels = n_channels
@@ -47,6 +48,12 @@ class DataGenerator(keras.utils.Sequence):
         X, y = self.__data_generation(indexes)
 
         return X, y
+    
+    def pre_process(self, image):
+        
+        processed = self.preprocess(image)
+                
+        return processed
 
     def on_epoch_end(self):
         """
@@ -66,21 +73,20 @@ class DataGenerator(keras.utils.Sequence):
         X = []
         y = []
 
-
         for i, index in enumerate(indexes):
 
             # Store sample
             file_path = self.file_paths[index]
             label = self.labels[index]
 
-            image_gray = cv2.imread(os.path.join(self.base_path, file_path),0)
-            if image_gray is None:
+            image = cv2.imread(os.path.join(self.base_path, file_path))
+            if image is None:
                 break
 
-            resized = cv2.resize(image_gray, self.dim, interpolation = cv2.INTER_AREA)
-            normalised = cv2.normalize(resized, None, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
-
-            X.append(np.expand_dims(normalised,axis=-1))
+            resized = cv2.resize(image, self.dim, interpolation = cv2.INTER_AREA)
+            processed = self.pre_process(resized)
+            
+            X.append(processed)
             y.append(label)
 
         X = np.array(X)
