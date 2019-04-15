@@ -15,9 +15,9 @@ The project data and codes are arranged in the following manner:
 
 ```
 charni
+  ├── train.py
+  ├── config.py
   ├── src  
-  |   ├── train.py
-  |   ├── config.py
   |   ├── evaluate.py
   |   ├── training/
   |   ├── evaluation/
@@ -75,7 +75,7 @@ Jupyter-notebook [LINK](./notebook/training.ipynb)
 For training, make the desired configuration in `config.py` and then run `train.py` as:
 
 ```
-python src/train.py
+python train.py
 ```
 
 <a name="to-do"></a>
