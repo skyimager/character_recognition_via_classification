@@ -23,12 +23,10 @@ class GPUModelCheckpoint(ModelCheckpoint):
 
 def get_callbacks(model):
 
-# =============================================================================
-#     #Early Stopping
-#     early_stopping = EarlyStopping(monitor='val_loss', min_delta=0.001,
-#                                    patience=config.patience_es, verbose=1,
-#                                    mode = "min")
-# =============================================================================
+    #Early Stopping
+    early_stopping = EarlyStopping(monitor='val_acc', min_delta=config.min_delta,
+                                   patience=config.patience_es, verbose=1,
+                                   mode = "max")
     #LR manage
     reduce_lr = ReduceLROnPlateau(monitor='val_acc', mode='max', factor=config.factor_lr,
                                   patience=config.patience_lr, min_lr=1e-8,
@@ -51,7 +49,6 @@ def get_callbacks(model):
                                  save_best_only=False, save_weights_only=False,
                                  verbose=1)
 
-    callbacks_list = [checkpoint, reduce_lr, tensorb]
-
+    callbacks_list = [checkpoint, reduce_lr, early_stopping, tensorb]
 
     return callbacks_list
