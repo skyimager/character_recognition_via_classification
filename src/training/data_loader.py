@@ -16,17 +16,17 @@ def build_source(base_path):
     data_val = pd.read_csv(val_txt, sep=" ", names=["file_path", "label"])
     data_test = pd.read_csv(test_txt, sep=" ", names=["file_path", "label"])
 
-    print("\nPrinting unique labels")
+#    print("\nPrinting unique labels")
     X_train = data_train["file_path"].values
     y_train = data_train["label"].values
-    print("for train:", np.unique(y_train))
+#    print("for train:", np.unique(y_train))
 
     X_val = data_val["file_path"].values
     y_val = data_val["label"].values
-    print("for val:", np.unique(y_val))
+#    print("for val:", np.unique(y_val))
 
     X_test = data_test["file_path"].values
     y_test = data_test["label"].values
-    print("for test:", np.unique(y_test))
+#    print("for test:", np.unique(y_test))
 
     return X_train, y_train, X_val, y_val, X_test, y_test
