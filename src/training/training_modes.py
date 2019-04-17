@@ -99,7 +99,8 @@ def transfer_learning(optimiser_class, loss_class, metric_class):
         with tf.device('/cpu:0'):
             build = getattr(importlib.import_module(config.model),"build")
             model = build(input_shape=(config.size, config.size, config.chs))
-            model.load_weights(config.weights_path, by_name=True)
+            if config.weights_path:
+                model.load_weights(config.weights_path, by_name=True)
             model = finetune_model(model)
 
         gpu_model = multi_gpu_model(model, gpus = config.no_of_gpu)
@@ -110,7 +111,8 @@ def transfer_learning(optimiser_class, loss_class, metric_class):
     else:
         build = getattr(importlib.import_module(config.model),"build")
         model = build(input_shape=(config.size, config.size, config.chs))
-        model.load_weights(config.weights_path, by_name=True)
+        if config.weights_path:
+            model.load_weights(config.weights_path, by_name=True)
         model = finetune_model(model)
         model.compile(loss= loss, optimizer=optimizer, metrics=[metric])
         gpu_model = None

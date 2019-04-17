@@ -1,6 +1,6 @@
 import config
 from keras.models import Model
-from keras.layers import Dense, Flatten, Dropout
+from keras.layers import Dense, Dropout
 
 def finetune_model(base_model):
 
@@ -11,7 +11,6 @@ def finetune_model(base_model):
             layer.trainable=True
     
     x = base_model.output
-#    x = Flatten()(x)
     x = Dense(256, activation='relu')(x)
     x = Dropout(0.2)(x)
     

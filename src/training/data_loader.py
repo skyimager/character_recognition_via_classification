@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-import numpy as np
 
 def build_source(base_path):
     """

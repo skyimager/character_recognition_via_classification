@@ -48,11 +48,11 @@ class DataGenerator(keras.utils.Sequence):
         X, y = self.__data_generation(indexes)
 
         return X, y
-    
+
     def pre_process(self, image):
-        
+
         processed = self.preprocess(image)
-                
+
         return processed
 
     def on_epoch_end(self):
@@ -82,10 +82,13 @@ class DataGenerator(keras.utils.Sequence):
             image = cv2.imread(os.path.join(self.base_path, file_path))
             if image is None:
                 break
+            # 'BGR'->'RGB'
+            image = image[::-1, ...]
+            resized = cv2.resize(image, self.dim,
+                            interpolation = cv2.INTER_AREA)
 
-            resized = cv2.resize(image, self.dim, interpolation = cv2.INTER_AREA)
             processed = self.pre_process(resized)
-            
+
             X.append(processed)
             y.append(label)
 
