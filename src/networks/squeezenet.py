@@ -103,3 +103,9 @@ if __name__ == "__main__":
     
     model = build(input_shape=(64, 64, 3), nb_classes = 62)
     model.summary()
+    print(len(model.layers)) #no of layers = 39, output.shape = (None, 512), params=0.70M+
+# =============================================================================
+#     model.load_weights("data/pretrained/squeezenet_weights_tf_dim_ordering_tf_kernels_notop.h5", 
+#                        by_name=True)
+# =============================================================================
+    
